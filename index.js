@@ -59,3 +59,17 @@ app.put("/Komik/:id", async (req, res) => {
 
 
 
+app.delete("/Komik/:id", async (req, res) => {
+    const id = req.params.id;   
+    
+    try {
+        const Komik = await db.Komik.findByPk(id);
+        if (!Komik) {
+            return res.status(404).send({ message: "Komik tidak tersedia" });
+        }
+        await Komik.destroy();
+        res.send({ message: "Komik berhasil dihapus" });
+    } catch (error) {
+        res.status(500).send(err);
+    }
+})
